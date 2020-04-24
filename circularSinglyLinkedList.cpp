@@ -13,7 +13,7 @@ struct node *display(struct node *start){
 
     struct node *ptr=start;
     cout<<"\n Printing List\t";
-    while(ptr->next!=start){
+    while(ptr->next!=start){    // ptr reaches end node pointing to end node
         cout<<ptr->data<<" -> ";
         ptr=ptr->next;
     }
@@ -218,36 +218,196 @@ struct node *delete_node(struct node *start){
     cout<<"\n enter node to delete";
     cin>>data;
 
-    struct node *tmp=start;
+struct node *traverse=start;
+int countNodes=0;
+while(traverse->next!=start){
+    if(traverse->data==data)
+        countNodes++;
 
-while(pre->next!=start){
+    traverse=traverse->next;
+}
 
-    if(ptr==start && ptr->data==data){
+struct node *changed_start;
+
+for(int i=0;i<countNodes;i++){
+
+cout<<"\n For loop count "<<i;
+
+while(ptr->next!=start){
+
+    cout<<"\n entering while loop   ";
+        struct node *tmp=org_start;
+
+    if(ptr==org_start && ptr->data==data){
         
         while(tmp->next!=start){
             tmp=tmp->next;
         }
         tmp->next=start->next;
+        free(start);
         start=start->next;
+        changed_start=start;
     }
     else if(ptr->data==data){
-        pre_ptr->next=ptr->next; // also works
-        // pre_ptr->next=pre_ptr->next->next;   
-        ptr=ptr->next;
+        // pre_ptr->next=ptr->next; // also works
+        pre_ptr->next=pre_ptr->next->next;   
+        free(ptr);
+        // ptr=ptr->next;
     }
 pre_ptr=ptr;
-ptr=pre_ptr->next;
-// ptr=ptr->next;
+// ptr=pre_ptr->next;
+ptr=ptr->next;
 }
 // for last eleement
 if(ptr->data==data){
     pre_ptr->next=ptr->next;
+    free(ptr);
     start=pre_ptr->next;
+    changed_start=start;
 
 }
-    return start;
+
+start=org_start;
+
+}
+start=changed_start;
+
+display(start);
+
+return start;
+}
+/**************************************************************
+        * DELETES all mulitple Occurence but inserts 2 garbage for 4 conitnious deletions
+struct node *delete_node(struct node *start){
+
+    struct node *ptr=start;
+
+    struct node *org_start=start;
+
+    struct node *pre_ptr=ptr;
+    int data;
+    cout<<"\n enter node to delete";
+    cin>>data;
+
+struct node *traverse=start;
+int countNodes=0;
+while(traverse->next!=start){
+    if(traverse->data==data)
+        countNodes++;
+
+    traverse=traverse->next;
 }
 
+struct node *changed_start;
+
+
+
+while(ptr->next!=start){
+
+    cout<<"\n entering while loop   ";
+        struct node *tmp=org_start;
+
+    if(ptr==org_start && ptr->data==data){
+        
+        while(tmp->next!=start){
+            tmp=tmp->next;
+        }
+        tmp->next=start->next;
+        free(start);
+        start=start->next;
+//        changed_start=start;
+    }
+    else if(ptr->data==data){
+        // pre_ptr->next=ptr->next; // also works
+        pre_ptr->next=pre_ptr->next->next;   
+        free(ptr);
+        // ptr=ptr->next;
+    }
+pre_ptr=ptr;
+// ptr=pre_ptr->next;
+ptr=ptr->next;
+}
+// for last eleement
+if(ptr->data==data){
+    pre_ptr->next=ptr->next;
+    free(ptr);
+    start=pre_ptr->next;
+  //  changed_start=start;
+
+}
+
+//start=changed_start;
+
+display(start);
+
+return start;
+}
+/***************************************************************
+ * CodeForWin.org website refereed    >>      WORKS flawlessly
+ *          https://codeforwin.org/2018/06/c-program-to-delete-element-from-circular-linked-list.html
+ * Delete all occurrence of an element by key from a 
+ * given circular linked list.
+ *
+void deleteAll(struct node ** head, int key)
+{
+    int i, count;
+    struct node *prev, *cur;
+
+    if (*head == NULL)
+    {
+        printf("List is empty.\n");
+        return;
+    }
+
+    count = 0;
+    cur   = *head;
+    prev  = cur;
+
+
+    // Find node before head node
+    printf("\n before while loop    ");
+    while (prev->next != *head) 
+    {   
+        printf("\n traversiong all node data is %d  ",prev->data);
+        prev = prev->next;
+        count++;    // counting nodes
+    }
+printf("\n total Num of NODES   %d",count);
+    // Iterate till first node
+    i = 0;
+    while (i <= count)
+    {
+        if (cur->data == key){
+            // Link prev node with next node of current
+            if (cur->next != cur)
+                prev->next = cur->next;
+            else
+                prev->next = NULL;  //deleting first node
+
+            // Adjust head node if needed
+            if (cur == *head)
+                *head = prev->next;
+
+            // Delete current node
+            free(cur);
+
+            // Move current node ahead
+            if (prev != NULL) 
+                cur = prev->next;
+            else
+                cur = NULL;
+        }
+        else{
+            prev = cur;
+            cur  = cur->next;
+        }
+
+
+        i++;
+
+    }
+}
+*/
 /*****************************************************************
                         // ??? some repetitions not deleted 
     // between 2 unique nums if 2 mulitple occ 1 left behind all else occs deleted
