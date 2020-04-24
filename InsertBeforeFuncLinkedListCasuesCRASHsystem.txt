@@ -1,0 +1,55 @@
+
+struct node *insert_before(struct node *start){
+
+    struct node *ptr=start;
+
+cout<<"\n enter before which elemnet u want to insert ";
+    int elem;
+    cin>>elem;
+
+cout<<"\n enter the number to insert ";
+    int data;
+    cin>>data;
+
+  struct node *pre_ptr=ptr;
+
+while(ptr!=NULL){
+
+    pre_ptr=ptr;
+    if(ptr->data==elem){
+
+        struct node *new_node=(struct node *)malloc(sizeof(struct node));
+        new_node->data=data;
+        pre_ptr->next=new_node;
+        new_node->next=ptr;
+    }
+    ptr=ptr->next;
+}  
+  
+  /*
+    struct node *pre_ptr=ptr;
+
+    //using count++ locate      // multiple occurences?
+    // or using ptr++ locate
+
+    while(ptr->next!=NULL){
+           pre_ptr=ptr;
+           ptr=ptr->next;
+           if(ptr->data==elem){
+                cout<<"\n element found ";
+                break;
+           }
+               
+    }
+
+    struct node *new_node=(struct node *)malloc(sizeof(struct node));
+
+    new_node->data=data;
+    pre_ptr->next=new_node;
+    new_node->next=ptr;
+
+*/
+    display(start);
+    return start;
+}
+
